@@ -1,0 +1,65 @@
+# Blender MTL File: 'None'
+# Material Count: 6
+
+newmtl 02_-_Default
+Ns 18.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.356863 0.168627
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:\\Users\\drago\\OneDrive\\Escritorio\\LabComputacionGrafica\\2021-1-CG11\\Proyecto Final\\Textures\\Plankton_Tex.fw.png
+
+newmtl 03_-_Default
+Ns 18.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.858824 0.729412 0.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:\\Users\\drago\\OneDrive\\Escritorio\\LabComputacionGrafica\\2021-1-CG11\\Proyecto Final\\Textures\\Plankton Eye_Tex.png
+
+newmtl 07_-_Default
+Ns 18.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.125490 0.019608
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+
+newmtl 08_-_Default
+Ns 18.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.015686 0.070588 0.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+
+newmtl 09_-_Default
+Ns 18.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+
+newmtl 13_-_Default
+Ns 18.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.588235 0.588235 0.588235
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:\\Users\\drago\\OneDrive\\Escritorio\\LabComputacionGrafica\\2021-1-CG11\\Proyecto Final\\Textures\\Plankton Body_Tex.png

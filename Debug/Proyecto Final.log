@@ -1,0 +1,8 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: El directorio intermedio (Debug\) contiene archivos compartidos de otro proyecto (Sesión 7.vcxproj, Sesión 8.vcxproj). Esto puede dar lugar a un comportamiento incorrecto de limpieza y recompilación.
+  Principal-HGA-ZRJA.cpp
+C:\Users\drago\OneDrive\Escritorio\LabComputacionGrafica\2021-1-CG11\Proyecto Final\Window.h(12,36): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
+C:\Users\drago\OneDrive\Escritorio\LabComputacionGrafica\2021-1-CG11\Proyecto Final\Window.h(13,37): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
+C:\Users\drago\OneDrive\Escritorio\LabComputacionGrafica\2021-1-CG11\Proyecto Final\Principal-HGA-ZRJA.cpp(444,15): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\drago\OneDrive\Escritorio\LabComputacionGrafica\2021-1-CG11\Proyecto Final\Principal-HGA-ZRJA.cpp(446,43): warning C4244: '+=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+LINK : warning LNK4098: la biblioteca predeterminada'MSVCRT' entra en conflicto con otras bibliotecas; use la biblioteca /NODEFAULTLIB:biblioteca
+  Proyecto Final.vcxproj -> C:\Users\drago\OneDrive\Escritorio\LabComputacionGrafica\2021-1-CG11\Debug\Proyecto Final.exe

@@ -1,0 +1,123 @@
+# Blender MTL File: 'None'
+# Material Count: 11
+
+newmtl 01_-_Default.001
+Ns 18.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.588235 0.588235 0.588235
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:\\Users\\drago\\OneDrive\\Escritorio\\LabComputacionGrafica\\2021-1-CG11\\Proyecto Final\\Textures\\Mr. Krabs Skin.fw.png
+
+newmtl 02_-_Default.001
+Ns 18.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.588235 0.588235 0.588235
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:\\Users\\drago\\OneDrive\\Escritorio\\LabComputacionGrafica\\2021-1-CG11\\Proyecto Final\\Textures\\Mr. Krabs Shirt1.fw.png
+
+newmtl 03_-_Default.001
+Ns 18.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.588235 0.588235 0.588235
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:\\Users\\drago\\OneDrive\\Escritorio\\LabComputacionGrafica\\2021-1-CG11\\Proyecto Final\\Textures\\Mr. Krabs Pants.fw.png
+
+newmtl 07_-_Default.001
+Ns 18.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.588235 0.588235 0.588235
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:\\Users\\drago\\OneDrive\\Escritorio\\LabComputacionGrafica\\2021-1-CG11\\Proyecto Final\\Textures\\Mr. Krabs Belt1.fw.png
+
+newmtl 08_-_Default.001
+Ns 18.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.588235 0.588235 0.588235
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:\\Users\\drago\\OneDrive\\Escritorio\\LabComputacionGrafica\\2021-1-CG11\\Proyecto Final\\Textures\\Mr. Krabs Eye Brows.fw.png
+
+newmtl 09_-_Default.001
+Ns 18.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.588235 0.588235 0.588235
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:\\Users\\drago\\OneDrive\\Escritorio\\LabComputacionGrafica\\2021-1-CG11\\Proyecto Final\\Textures\\Mr. Krabs Eyes.fw.png
+
+newmtl 13_-_Default.001
+Ns 18.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.588235 0.588235 0.588235
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:\\Users\\drago\\OneDrive\\Escritorio\\LabComputacionGrafica\\2021-1-CG11\\Proyecto Final\\Textures\\Mr. Krabs Eyes2.fw.png
+
+newmtl 15_-_Default.001
+Ns 18.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.588235 0.588235 0.588235
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:\\Users\\drago\\OneDrive\\Escritorio\\LabComputacionGrafica\\2021-1-CG11\\Proyecto Final\\Textures\\Mr. Krabs Mouth.png
+
+newmtl 19_-_Default.001
+Ns 18.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.588235 0.588235 0.588235
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:\\Users\\drago\\OneDrive\\Escritorio\\LabComputacionGrafica\\2021-1-CG11\\Proyecto Final\\Textures\\Mr. Krabs Shirt2.fw.png
+
+newmtl 20_-_Default.001
+Ns 18.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.588235 0.588235 0.588235
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:\\Users\\drago\\OneDrive\\Escritorio\\LabComputacionGrafica\\2021-1-CG11\\Proyecto Final\\Textures\\Mr. Krabs Pants2.png
+
+newmtl 21_-_Default.001
+Ns 18.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.588235 0.588235 0.588235
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:\\Users\\drago\\OneDrive\\Escritorio\\LabComputacionGrafica\\2021-1-CG11\\Proyecto Final\\Textures\\Mr. Krabs Belt2.fw.png
