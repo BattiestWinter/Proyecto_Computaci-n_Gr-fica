@@ -17,6 +17,7 @@ public:
 	GLfloat getmuevex2() { return muevex2; }
 	GLfloat getmuevey() { return muevey; }
 	GLfloat getmuevez() { return muevez; }
+	GLfloat getrotAvatar() { return rotAvatar; }
 	GLfloat getmuevehelice() { return muevehelice; }
 	GLfloat getLlanta1() { return Llanta1; }
 	GLfloat getLlanta2() { return Llanta2; }
@@ -42,6 +43,7 @@ private:
 	GLfloat muevex2;
 	GLfloat muevey;
 	GLfloat muevez;
+	GLfloat rotAvatar = 0.0;
 	GLfloat muevehelice;
 	GLfloat Llanta1;
 	GLfloat Llanta2;

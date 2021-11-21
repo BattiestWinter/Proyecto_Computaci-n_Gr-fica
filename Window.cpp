@@ -117,20 +117,26 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	if (key == GLFW_KEY_Y)
 	{
 		theWindow-> muevex -= 1.0;
+		theWindow-> rotAvatar = 180.0;
 	}
 	if (key == GLFW_KEY_U)
 	{
 		theWindow-> muevex += 1.0;
+		theWindow->rotAvatar = 0.0;
 	}
-	//Coche en Z
+	//Avatar en Z
 	if (key == GLFW_KEY_I)
 	{
 		theWindow->muevez += 1.0;
+		theWindow->rotAvatar = -90.0;
 	}
 	if (key == GLFW_KEY_O)
 	{
 		theWindow->muevez -= 1.0;
+		theWindow->rotAvatar = 90.0;
 	}
+
+
 	//Helicoptero en X
 	if (key == GLFW_KEY_C)
 	{
