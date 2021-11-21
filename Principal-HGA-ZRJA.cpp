@@ -37,13 +37,28 @@ Cambios en el shader, en lugar de enviar la textura en el shader de fragmentos, 
 #include "PointLight.h"
 #include "Material.h"
 
+const float PI = 3.14159265f;
 const float toRadians = 3.14159265f / 180.0f;
+
+//Variables adicionales
+float rotPieDer;
+float rotPieIzq;
+float rotPieDerOt;
+float rotPieIzqOt;
+int muevex_int;
+int muevez_int;
+int rotAvatar_int;
+float movPieDer;
+float movPieIzq;
 
 Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 
 Camera camera;
+
+//Regalos Navidad
+Texture Regalo01;
 
 Texture brickTexture;
 Texture dirtTexture;
@@ -73,6 +88,15 @@ Model Gary;
 Model Plankton;
 Model Karen;
 Model Sandy;
+Model ArenitaPieDer;
+Model ArenitaPieIzq;
+
+//Buildings
+Model KrustyKrab;
+Model ChristmasTree;
+Model SpongeBobHouse;
+Model SquidwardHouse;
+Model PatrickHouse;
 
 Skybox skybox;
 
@@ -229,42 +253,42 @@ void CrearCubo()
 	GLfloat cubo_vertices[] = {
 		// front
 		//x		y		z		S		T			NX		NY		NZ
-		-0.5f, -0.5f,  0.5f,	0.27f,  0.35f,		0.0f,	0.0f,	-1.0f,	//0
-		0.5f, -0.5f,  0.5f,		0.48f,	0.35f,		0.0f,	0.0f,	-1.0f,	//1
-		0.5f,  0.5f,  0.5f,		0.48f,	0.64f,		0.0f,	0.0f,	-1.0f,	//2
-		-0.5f,  0.5f,  0.5f,	0.27f,	0.64f,		0.0f,	0.0f,	-1.0f,	//3
+		-0.5f, -0.5f,  0.5f,	0.25f,  0.33f,		0.0f,	0.0f,	-1.0f,	//0
+		0.5f, -0.5f,  0.5f,		0.5f,	0.33f,		0.0f,	0.0f,	-1.0f,	//1
+		0.5f,  0.5f,  0.5f,		0.5f,	0.66f,		0.0f,	0.0f,	-1.0f,	//2
+		-0.5f,  0.5f,  0.5f,	0.25f,	0.66f,		0.0f,	0.0f,	-1.0f,	//3
 		// right
 		//x		y		z		S		T
-		0.5f, -0.5f,  0.5f,	    0.52f,  0.35f,		-1.0f,	0.0f,	0.0f,
-		0.5f, -0.5f,  -0.5f,	0.73f,	0.35f,		-1.0f,	0.0f,	0.0f,
-		0.5f,  0.5f,  -0.5f,	0.73f,	0.64f,		-1.0f,	0.0f,	0.0f,
-		0.5f,  0.5f,  0.5f,	    0.52f,	0.64f,		-1.0f,	0.0f,	0.0f,
+		0.5f, -0.5f,  0.5f,	    0.5f,  0.33f,		-1.0f,	0.0f,	0.0f,
+		0.5f, -0.5f,  -0.5f,	0.75f,	0.33f,		-1.0f,	0.0f,	0.0f,
+		0.5f,  0.5f,  -0.5f,	0.75f,	0.66f,		-1.0f,	0.0f,	0.0f,
+		0.5f,  0.5f,  0.5f,	    0.5f,	0.66f,		-1.0f,	0.0f,	0.0f,
 		// back
-		-0.5f, -0.5f, -0.5f,	0.77f,	0.35f,		0.0f,	0.0f,	1.0f,
-		0.5f, -0.5f, -0.5f,		0.98f,	0.35f,		0.0f,	0.0f,	1.0f,
-		0.5f,  0.5f, -0.5f,		0.98f,	0.64f,		0.0f,	0.0f,	1.0f,
-		-0.5f,  0.5f, -0.5f,	0.77f,	0.64f,		0.0f,	0.0f,	1.0f,
+		-0.5f, -0.5f, -0.5f,	0.99f,	0.33f,		0.0f,	0.0f,	1.0f,
+		0.5f, -0.5f, -0.5f,		0.75f,	0.33f,		0.0f,	0.0f,	1.0f,
+		0.5f,  0.5f, -0.5f,		0.75f,	0.66f,		0.0f,	0.0f,	1.0f,
+		-0.5f,  0.5f, -0.5f,	0.99f,	0.66f,		0.0f,	0.0f,	1.0f,
 
 		// left
 		//x		y		z		S		T
-		-0.5f, -0.5f,  -0.5f,	0.0f,	0.35f,		1.0f,	0.0f,	0.0f,
-		-0.5f, -0.5f,  0.5f,	0.23f,  0.35f,		1.0f,	0.0f,	0.0f,
-		-0.5f,  0.5f,  0.5f,	0.23f,	0.64f,		1.0f,	0.0f,	0.0f,
-		-0.5f,  0.5f,  -0.5f,	0.0f,	0.64f,		1.0f,	0.0f,	0.0f,
+		-0.5f, -0.5f,  -0.5f,	0.01f,	0.33f,		1.0f,	0.0f,	0.0f,
+		-0.5f, -0.5f,  0.5f,	0.25f,  0.33f,		1.0f,	0.0f,	0.0f,
+		-0.5f,  0.5f,  0.5f,	0.25f,	0.66f,		1.0f,	0.0f,	0.0f,
+		-0.5f,  0.5f,  -0.5f,	0.01f,	0.66f,		1.0f,	0.0f,	0.0f,
 
 		// bottom
 		//x		y		z		S		T
-		-0.5f, -0.5f,  0.5f,	0.27f,	0.02f,		0.0f,	1.0f,	0.0f,
-		0.5f,  -0.5f,  0.5f,	0.48f,  0.02f,		0.0f,	1.0f,	0.0f,
-		 0.5f,  -0.5f,  -0.5f,	0.48f,	0.31f,		0.0f,	1.0f,	0.0f,
-		-0.5f, -0.5f,  -0.5f,	0.27f,	0.31f,		0.0f,	1.0f,	0.0f,
+		-0.5f, -0.5f,  0.5f,	0.5f,	0.0f,		0.0f,	1.0f,	0.0f,
+		0.5f,  -0.5f,  0.5f,	0.75f,  0.0f,		0.0f,	1.0f,	0.0f,
+		 0.5f,  -0.5f,  -0.5f,	0.75f,	0.33f,		0.0f,	1.0f,	0.0f,
+		-0.5f, -0.5f,  -0.5f,	0.5f,	0.33f,		0.0f,	1.0f,	0.0f,
 
 		//UP
 		 //x		y		z		S		T
-		 -0.5f, 0.5f,  0.5f,	0.27f,	0.68f,		0.0f,	-1.0f,	0.0f,
-		 0.5f,  0.5f,  0.5f,	0.48f,  0.68f,		0.0f,	-1.0f,	0.0f,
-		  0.5f, 0.5f,  -0.5f,	0.48f,	0.98f,		0.0f,	-1.0f,	0.0f,
-		 -0.5f, 0.5f,  -0.5f,	0.27f,	0.98f,		0.0f,	-1.0f,	0.0f,
+		 -0.5f, 0.5f,  0.5f,	0.5f,	1.0f,		0.0f,	-1.0f,	0.0f,
+		 0.5f,  0.5f,  0.5f,	0.5f,   0.66f,		0.0f,	-1.0f,	0.0f,
+		  0.5f, 0.5f,  -0.5f,	0.75f,	0.66f,		0.0f,	-1.0f,	0.0f,
+		 -0.5f, 0.5f,  -0.5f,	0.75f,	1.0f,		0.0f,	-1.0f,	0.0f,
 
 	};
 
@@ -273,7 +297,6 @@ void CrearCubo()
 	meshList.push_back(cubo);
 
 }
-
 
 
 void CreateShaders()
@@ -294,7 +317,11 @@ int main()
 	CrearCubo();
 	CreateShaders();
 
-	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 0.5f, 0.5f);
+	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 2.0f, 0.5f); //penultimo: 0.5
+
+	//Texturas Regalos
+	Regalo01 = Texture("Textures/Regalo_Navidad_01.tga");
+	Regalo01.LoadTextureA();
 
 	brickTexture = Texture("Textures/brick.png");
 	brickTexture.LoadTextureA();
@@ -304,7 +331,8 @@ int main()
 	plainTexture.LoadTextureA();
 	dadoTexture = Texture("Textures/dado.tga");
 	dadoTexture.LoadTextureA();
-	pisoTexture = Texture("Textures/piso.tga");
+	//pisoTexture = Texture("Textures/piso.tga");
+	pisoTexture = Texture("Textures/SnowFloor.tga");
 	pisoTexture.LoadTextureA();
 	Tagave = Texture("Textures/Agave.tga");
 	Tagave.LoadTextureA();
@@ -341,7 +369,7 @@ int main()
 	SquidWard.LoadModel("Models/SquidWard.obj");
 
 	PatrickStar = Model();
-	PatrickStar.LoadModel("Models/PatrickStar.obj");
+	PatrickStar.LoadModel("Models/PatrickStarV2.obj");
 
 	Gary = Model();
 	Gary.LoadModel("Models/Gary.obj");
@@ -353,7 +381,29 @@ int main()
 	Karen.LoadModel("Models/Karen.obj");
 
 	Sandy = Model();
-	Sandy.LoadModel("Models/Sandy.obj");
+	Sandy.LoadModel("Models/Arenita.obj");
+
+	ArenitaPieDer = Model();
+	ArenitaPieDer.LoadModel("Models/ArenitaPieDer.obj");
+
+	ArenitaPieIzq = Model();
+	ArenitaPieIzq.LoadModel("Models/ArenitaPieIzq.obj");
+
+	//Buildings
+	KrustyKrab = Model();
+	KrustyKrab.LoadModel("Models/KrustyKrab.obj");
+	ChristmasTree = Model();
+	ChristmasTree.LoadModel("Models/ChristmasTree.obj");
+
+	SpongeBobHouse = Model();
+	SpongeBobHouse.LoadModel("Models/SpongeBobHouse.obj");
+
+	SquidwardHouse = Model();
+	SquidwardHouse.LoadModel("Models/SquidwardHouse.obj");
+
+	PatrickHouse = Model();
+	PatrickHouse.LoadModel("Models/PatrickHouse.obj");
+
 
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
@@ -491,9 +541,15 @@ int main()
 
 		glm::mat4 matrizaux2(1.0);
 
+		glm::mat4 matrizauxAvatar(1.0);
+
+		glm::mat4 matrizauxKC(1.0);
+
+		glm::mat4 matrizauxRegalo(1.0);
+
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(30.0f, 1.0f, 30.0f));
+		model = glm::scale(model, glm::vec3(60.0f, 1.0f, 60.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		pisoTexture.UseTexture();
 		//agregar material al plano de piso
@@ -504,39 +560,39 @@ int main()
 		//-----------------------------------------------------------------------------------------
 		//Don Cangrejo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-20.0f, 5.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(-20.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.015f, 0.015f, 0.015f));
+		//model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		mKrabs.RenderModel();
 
 		//Bob Esponja
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-40.0f, 5.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(-40.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(4.0f, 5.0f, 4.0f));
 		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		SpongeBob.RenderModel();
 
 		//Calamardo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-50.0f, 5.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(-50.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		SquidWard.RenderModel();
 
 		//Patricio
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-65.0f, 5.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(-65.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(27.0f, 27.0f, 27.0f));
 		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		PatrickStar.RenderModel();
 
 		//Gary
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-80.0f, 5.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(-80.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -544,125 +600,269 @@ int main()
 
 		//Plankton
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-95.0f, 5.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(-95.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
 		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Plankton.RenderModel();
 
 		//Karen
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-105.0f, 5.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(-105.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
 		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Karen.RenderModel();
 
 		//Arenita
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-120.0f, 5.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(-120.0f + mainWindow.getmuevex(), 0.0f, 0.0f + mainWindow.getmuevez()));
+		model = glm::scale(model, glm::vec3(1.8f, 1.8f, 1.8f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(mainWindow.getrotAvatar()), glm::vec3(0.0f, 1.0f, 0.0f));
+		
+		matrizauxAvatar = model;
+
+		//Uso de GL_BLEND por la textura del casco
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		Sandy.RenderModel();
+		glDisable(GL_BLEND);
+
+
+		//Variables para realizar la rotación de las piernas
+		muevex_int = int(mainWindow.getmuevex());
+		muevez_int = int(mainWindow.getmuevez());
+		rotAvatar_int = int(mainWindow.getrotAvatar());
+
+		//Estructura para realizar la rotación de las piernas
+		//Rotación en movimiento horizontal
+		if (rotAvatar_int == 180 || rotAvatar_int == 0) {
+			if (muevex_int % 2 == 0) {
+				rotPieDer = -45.0;
+				rotPieIzq = 0.0;
+				rotPieDerOt = 0.0;
+				rotPieIzqOt = 0.0;
+
+				movPieDer = 1.0;
+				movPieIzq = 0.0;
+			}
+			else {
+				rotPieDer = 0.0;
+				rotPieIzq = -45.0;
+				rotPieDerOt = 0.0;
+				rotPieIzqOt = 0.0;
+
+				movPieIzq = 1.0;
+				movPieDer = 0.0;
+			}
+		}
+		
+		//Rotación en movimiento vertical
+		if (rotAvatar_int == -90 || rotAvatar_int == 90) {
+			if (muevez_int % 2 == 0) {
+				rotPieDerOt = -45.0;
+				rotPieIzqOt = 0.0;
+				rotPieDer = 0.0;
+				rotPieIzq = 0.0;
+
+				movPieDer = 1.0;
+				movPieIzq = 0.0;
+			}
+			else {
+				rotPieDerOt = 0.0;
+				rotPieIzqOt = -45.0;
+				rotPieDer = 0.0;
+				rotPieIzq = 0.0;
+
+				movPieIzq = 1.0;
+				movPieDer = 0.0;
+			}
+		}
+		
+		//Arenita Piernas
+
+		model = matrizauxAvatar;
+		//model = glm::translate(model, glm::vec3(+0.0f, +0.0f, +movPieDer));
+		model = glm::rotate(model, rotPieDer * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, rotPieDerOt * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		ArenitaPieDer.RenderModel();
+
+		model = matrizauxAvatar;
+		//model = glm::translate(model, glm::vec3(+0.0f, +0.0f, +movPieIzq));
+		model = glm::rotate(model, rotPieIzq * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, rotPieIzqOt * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		ArenitaPieIzq.RenderModel();
 
 		//-----------------------------------------------------------------------------------------
 
-		//agregar su coche y ponerle material
+		//BUILDINGS
+		//-----------------------------------------------------------------------------------------
+		//Crustáceo Cascarudo
 		model = glm::mat4(1.0);
-		//model = glm::translate(model, glm::vec3(0.0f + mainWindow.getmuevex(),  0.5f, -1.5f));
-		//Faro1
-		glm::vec3 lowerLightC1(-7.0f + mainWindow.getmuevex(), 1.8f, 1.65f + mainWindow.getmuevez());
-		//Faro2
-		//glm::vec3 lowerLightC2(-7.0f + mainWindow.getmuevex(), 1.8f, -2.95f);
-		model = glm::translate(model, glm::vec3(0.0f + mainWindow.getmuevex(), 0.0f, 0.0f)); //IMP
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f + mainWindow.getmuevez()));
-		//model = glm::translate(model, lowerLightC);
-		//model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::translate(model, glm::vec3(-20.0f, 0.0f, 60.0f));
 
-		spotLights[2].SetFlash(lowerLightC1, glm::vec3(-1.0f, 0.0f, 0.0f));
-		//spotLights[3].SetFlash(lowerLightC2, glm::vec3(-1.0f, 0.0f, 0.0f));
+		//Jerarquía del Crustáceo Cascarudo
+		matrizauxKC = model;
 
-		matrizaux = model;
-
-		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//Kitt_M.RenderModel();
-		De_Lorean.RenderModel();
+		KrustyKrab.RenderModel();
 
-		//Agregar llantas con jerarquía y rotación propia
-		//LLanta1
-		model = matrizaux;
+		//Árbol de Navidad
+		model = matrizauxKC;
+		model = glm::translate(model, glm::vec3(40.0f, 4.0f, 60.0f));
+		model = glm::scale(model, glm::vec3(20.0f, 20.0f, 20.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		ChristmasTree.RenderModel();
+
+		//REGALOS
+		//-------------------------------------------------------------------------------
+		//Regalo01
+		model = matrizauxKC;
+		model = glm::translate(model, glm::vec3(-20.0f, 10.0f, -50.0f));
+		model = glm::scale(model, glm::vec3(9.0f, 12.0f, 4.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Regalo01.UseTexture();
+		meshList[4]->RenderMesh();
+
+		//Regalo02
+		model = matrizauxKC;
+		model = glm::translate(model, glm::vec3(-10.0f, 4.9f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[4]->RenderMesh();
+		//-------------------------------------------------------------------------------
+
+		//Casa de Bob Esponja
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-500.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(17.0f, 17.0f, 17.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		SpongeBobHouse.RenderModel();
+
+		//Casa de Calamardo
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-500.0f, 0.0f, 250.0f));
+		model = glm::scale(model, glm::vec3(13.0f, 13.0f, 13.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		SquidwardHouse.RenderModel();
+
+		//Casa de Patricio
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-500.0f, 0.0f, 500.0f));
+		model = glm::scale(model, glm::vec3(3.5f, 3.5f, 3.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		PatrickHouse.RenderModel();
+
+		//------------------------------------------------------------------------------------------
+
+		//OBJECTS BY GEOMETRY
+		//-----------------------------------------------------------------------------------------
+
+		//Regalos
+
+
+		//-----------------------------------------------------------------------------------------
+
+		////agregar su coche y ponerle material
 		//model = glm::mat4(1.0);
-		//model = glm::translate(model, glm::vec3(5.0f, 0.0f, 4.0f));
-		model = glm::translate(model, glm::vec3(-6.44f, 0.45f, 2.0f));
-		model = glm::scale(model, glm::vec3(0.53f, 0.53f, 0.53f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(mainWindow.getLlanta1()), glm::vec3(-1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(mainWindow.getmuevex()*5), glm::vec3(1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Llanta_M.RenderModel();
+		////model = glm::translate(model, glm::vec3(0.0f + mainWindow.getmuevex(),  0.5f, -1.5f));
+		////Faro1
+		//glm::vec3 lowerLightC1(-7.0f + mainWindow.getmuevex(), 1.8f, 1.65f + mainWindow.getmuevez());
+		////Faro2
+		////glm::vec3 lowerLightC2(-7.0f + mainWindow.getmuevex(), 1.8f, -2.95f);
+		//model = glm::translate(model, glm::vec3(0.0f + mainWindow.getmuevex(), 0.0f, 0.0f)); //IMP
+		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f + mainWindow.getmuevez()));
+		////model = glm::translate(model, lowerLightC);
+		////model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 
-		//LLanta2
-		model = matrizaux;
-		model = glm::translate(model, glm::vec3(-6.44f, 0.45f, -3.3f));
-		model = glm::scale(model, glm::vec3(0.53f, 0.53f, 0.53f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(mainWindow.getLlanta2()), glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(mainWindow.getmuevex() * 5), glm::vec3(-1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Llanta_M.RenderModel();
+		//spotLights[2].SetFlash(lowerLightC1, glm::vec3(-1.0f, 0.0f, 0.0f));
+		////spotLights[3].SetFlash(lowerLightC2, glm::vec3(-1.0f, 0.0f, 0.0f));
 
-		//LLanta3
-		model = matrizaux;
-		model = glm::translate(model, glm::vec3(3.55f, 0.45f, 2.0f));
-		model = glm::scale(model, glm::vec3(0.53f, 0.53f, 0.53f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(mainWindow.getLlanta3()), glm::vec3(-1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(mainWindow.getmuevex() * 5), glm::vec3(1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Llanta_M.RenderModel();
+		//matrizaux = model;
 
-		//LLanta4
-		model = matrizaux;
-		model = glm::translate(model, glm::vec3(3.55f, 0.45f, -3.3f));
-		model = glm::scale(model, glm::vec3(0.53f, 0.53f, 0.53f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(mainWindow.getLlanta4()), glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(mainWindow.getmuevex() * 5), glm::vec3(-1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Llanta_M.RenderModel();
+		//model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		////Kitt_M.RenderModel();
+		//De_Lorean.RenderModel();
 
-		//agregar incremento en X con teclado
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-20.0f + mainWindow.getmuevex2(), 6.0f + mainWindow.getmuevey(), -1.0f));
-		matrizaux2 = model;
-		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
-		model = glm::rotate(model, 180 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//agregar material al helicóptero
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		helicoptero.RenderModel();
-		//Helice
-		//model = matrizaux2;
-		model = glm::rotate(model, glm::radians(mainWindow.getmuevehelice()*10), glm::vec3(1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		helice.RenderModel();
-		//Blackhawk_M.RenderModel();
-		//¿Cómo ligas la luz al helicóptero?
-		glm::vec3 lowerLightH(-20.0f + mainWindow.getmuevex2(), 5.5f + mainWindow.getmuevey(), -1.0f);
-		spotLights[1].SetFlash(lowerLightH, glm::vec3(0.0f, -1.0f, 0.0f));
+		////Agregar llantas con jerarquía y rotación propia
+		////LLanta1
+		//model = matrizaux;
+		////model = glm::mat4(1.0);
+		////model = glm::translate(model, glm::vec3(5.0f, 0.0f, 4.0f));
+		//model = glm::translate(model, glm::vec3(-6.44f, 0.45f, 2.0f));
+		//model = glm::scale(model, glm::vec3(0.53f, 0.53f, 0.53f));
+		//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::rotate(model, glm::radians(mainWindow.getLlanta1()), glm::vec3(-1.0f, 0.0f, 0.0f));
+		//model = glm::rotate(model, glm::radians(mainWindow.getmuevex()*5), glm::vec3(1.0f, 0.0f, 0.0f));
+		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//Llanta_M.RenderModel();
 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, -1.53f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Camino_M.RenderModel();
+		////LLanta2
+		//model = matrizaux;
+		//model = glm::translate(model, glm::vec3(-6.44f, 0.45f, -3.3f));
+		//model = glm::scale(model, glm::vec3(0.53f, 0.53f, 0.53f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::rotate(model, glm::radians(mainWindow.getLlanta2()), glm::vec3(1.0f, 0.0f, 0.0f));
+		//model = glm::rotate(model, glm::radians(mainWindow.getmuevex() * 5), glm::vec3(-1.0f, 0.0f, 0.0f));
+		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//Llanta_M.RenderModel();
 
-		
+		////LLanta3
+		//model = matrizaux;
+		//model = glm::translate(model, glm::vec3(3.55f, 0.45f, 2.0f));
+		//model = glm::scale(model, glm::vec3(0.53f, 0.53f, 0.53f));
+		//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::rotate(model, glm::radians(mainWindow.getLlanta3()), glm::vec3(-1.0f, 0.0f, 0.0f));
+		//model = glm::rotate(model, glm::radians(mainWindow.getmuevex() * 5), glm::vec3(1.0f, 0.0f, 0.0f));
+		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//Llanta_M.RenderModel();
+
+		////LLanta4
+		//model = matrizaux;
+		//model = glm::translate(model, glm::vec3(3.55f, 0.45f, -3.3f));
+		//model = glm::scale(model, glm::vec3(0.53f, 0.53f, 0.53f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::rotate(model, glm::radians(mainWindow.getLlanta4()), glm::vec3(1.0f, 0.0f, 0.0f));
+		//model = glm::rotate(model, glm::radians(mainWindow.getmuevex() * 5), glm::vec3(-1.0f, 0.0f, 0.0f));
+		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//Llanta_M.RenderModel();
+
+		////agregar incremento en X con teclado
+		//model = glm::mat4(1.0);
+		//model = glm::translate(model, glm::vec3(-20.0f + mainWindow.getmuevex2(), 6.0f + mainWindow.getmuevey(), -1.0f));
+		//matrizaux2 = model;
+		//model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+		//model = glm::rotate(model, 180 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		////agregar material al helicóptero
+		//Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		//helicoptero.RenderModel();
+		////Helice
+		////model = matrizaux2;
+		//model = glm::rotate(model, glm::radians(mainWindow.getmuevehelice()*10), glm::vec3(1.0f, 0.0f, 0.0f));
+		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//helice.RenderModel();
+		////Blackhawk_M.RenderModel();
+		////¿Cómo ligas la luz al helicóptero?
+		//glm::vec3 lowerLightH(-20.0f + mainWindow.getmuevex2(), 5.5f + mainWindow.getmuevey(), -1.0f);
+		//spotLights[1].SetFlash(lowerLightH, glm::vec3(0.0f, -1.0f, 0.0f));
+
+		//model = glm::mat4(1.0);
+		//model = glm::translate(model, glm::vec3(0.0f, -1.53f, 0.0f));
+		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//Camino_M.RenderModel();
+
 
 		glUseProgram(0);
 
