@@ -482,11 +482,11 @@ int main()
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
 
-	//posición inicial del helicóptero
-	glm::vec3 posblackhawk = glm::vec3(-20.0f, 6.0f, -1.0);
+	////posición inicial del helicóptero
+	//glm::vec3 posblackhawk = glm::vec3(-20.0f, 6.0f, -1.0);
 
-	//posición inicial del faro
-	glm::vec3 posfaro = glm::vec3(-7.0f, 6.0f, 2.0f);
+	////posición inicial del faro
+	//glm::vec3 posfaro = glm::vec3(-7.0f, 6.0f, 2.0f);
 
 	//luz direccional, sólo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
@@ -494,12 +494,27 @@ int main()
 		0.0f, 0.0f, -1.0f);
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
+
 	//Declaración de primer luz puntual
 	pointLights[0] = PointLight(1.0f, 1.0f, 1.0f,
-		0.0f, 1.0f,
-		400.0f, 0.0f, -300.0f,
+		100.0f, 1.0f,
+		400.0f, 50.0f, -300.0f,
 		0.3f, 0.2f, 0.1f);
-	pointLightCount++;
+	//pointLightCount++;
+
+	//Declaración de segunda luz puntual
+	pointLights[1] = PointLight(1.0f, 0.0f, 0.0f,
+		100.0f, 1.0f,
+		400.0f, 50.0f, -400.0f,
+		0.3f, 0.2f, 0.1f);
+	//pointLightCount++;
+
+	//Declaración de tercera luz puntual
+	pointLights[2] = PointLight(1.0f, 0.0f, 0.0f,
+		100.0f, 1.0f,
+		400.0f, 50.0f, -200.0f,
+		0.3f, 0.2f, 0.1f);
+	//pointLightCount++;
 
 	unsigned int spotLightCount = 0;
 	//linterna
@@ -509,7 +524,7 @@ int main()
 		0.0f, -1.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
 		5.0f);
-	spotLightCount++;
+	//spotLightCount++;
 
 	//luz fija
 	/*spotLights[1] = SpotLight(0.0f, 0.0f, 1.0f,
@@ -586,9 +601,11 @@ int main()
 		//Ciclo Día-Noche
 		if (countSB <= 200) {
 			skyboxFBD.DrawSkybox(camera.calculateViewMatrix(), projection);
+			pointLightCount = 0;
 		}
 		else {
 			skyboxFBN.DrawSkybox(camera.calculateViewMatrix(), projection);
+			pointLightCount = 3;
 		}
 		
 
