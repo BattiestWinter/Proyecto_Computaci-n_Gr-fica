@@ -50,6 +50,10 @@ int muevez_int;
 int rotAvatar_int;
 float movPieDer;
 float movPieIzq;
+float movPieDerY;
+float movPieIzqY;
+float countSB;
+float movOffset;
 
 Window mainWindow;
 std::vector<Mesh*> meshList;
@@ -59,6 +63,9 @@ Camera camera;
 
 //Regalos Navidad
 Texture Regalo01;
+Texture Regalo02;
+Texture Regalo03;
+Texture Regalo04;
 
 Texture brickTexture;
 Texture dirtTexture;
@@ -98,7 +105,18 @@ Model SpongeBobHouse;
 Model SquidwardHouse;
 Model PatrickHouse;
 
+//Objects
+Model Bombilla;
+Model Snowmans;
+Model Snowman01;
+Model Snowman02;
+Model Lampara;
+
 Skybox skybox;
+
+//Skybox Bikini bottom
+Skybox skyboxFBD;
+Skybox skyboxFBN;
 
 //materiales
 Material Material_brillante;
@@ -323,18 +341,27 @@ int main()
 	Regalo01 = Texture("Textures/Regalo_Navidad_01.tga");
 	Regalo01.LoadTextureA();
 
-	brickTexture = Texture("Textures/brick.png");
+	Regalo02 = Texture("Textures/Regalo_Navidad_02.tga");
+	Regalo02.LoadTextureA();
+
+	Regalo03 = Texture("Textures/Regalo_Navidad_03.tga");
+	Regalo03.LoadTextureA();
+
+	Regalo04 = Texture("Textures/Regalo_Navidad_04.tga");
+	Regalo04.LoadTextureA();
+
+	/*brickTexture = Texture("Textures/brick.png");
 	brickTexture.LoadTextureA();
 	dirtTexture = Texture("Textures/dirt.png");
 	dirtTexture.LoadTextureA();
 	plainTexture = Texture("Textures/plain.png");
 	plainTexture.LoadTextureA();
 	dadoTexture = Texture("Textures/dado.tga");
-	dadoTexture.LoadTextureA();
+	dadoTexture.LoadTextureA();*/
 	//pisoTexture = Texture("Textures/piso.tga");
 	pisoTexture = Texture("Textures/SnowFloor.tga");
 	pisoTexture.LoadTextureA();
-	Tagave = Texture("Textures/Agave.tga");
+	/*Tagave = Texture("Textures/Agave.tga");
 	Tagave.LoadTextureA();
 
 	Kitt_M = Model();
@@ -356,7 +383,7 @@ int main()
 	helicoptero.LoadModel("Models/helicoptero.obj");
 
 	helice = Model();
-	helice.LoadModel("Models/helice.obj");
+	helice.LoadModel("Models/helice.obj");*/
 
 	//Characters
 	mKrabs = Model();
@@ -391,9 +418,7 @@ int main()
 
 	//Buildings
 	KrustyKrab = Model();
-	KrustyKrab.LoadModel("Models/KrustyKrab.obj");
-	ChristmasTree = Model();
-	ChristmasTree.LoadModel("Models/ChristmasTree.obj");
+	KrustyKrab.LoadModel("Models/KrustyKrab2.obj");
 
 	SpongeBobHouse = Model();
 	SpongeBobHouse.LoadModel("Models/SpongeBobHouse.obj");
@@ -404,8 +429,47 @@ int main()
 	PatrickHouse = Model();
 	PatrickHouse.LoadModel("Models/PatrickHouse.obj");
 
+	//Objects
+	ChristmasTree = Model();
+	ChristmasTree.LoadModel("Models/ChristmasTree.obj");
 
-	std::vector<std::string> skyboxFaces;
+	Bombilla = Model();
+	Bombilla.LoadModel("Models/Bombilla.obj");
+
+	Snowmans = Model();
+	Snowmans.LoadModel("Models/Snowmans.obj");
+
+	Snowman01 = Model();
+	Snowman01.LoadModel("Models/Snowman01.obj");
+
+	Snowman02 = Model();
+	Snowman02.LoadModel("Models/Snowman02.obj");
+
+	Lampara = Model();
+	Lampara.LoadModel("Models/Lampara.obj");
+
+	//Skyboxs
+	std::vector<std::string> skyboxFacesFBD;
+	skyboxFacesFBD.push_back("Textures/SkyboxSBD/bikini_bottom_rt.tga");
+	skyboxFacesFBD.push_back("Textures/SkyboxSBD/bikini_bottom_lf.tga");
+	skyboxFacesFBD.push_back("Textures/SkyboxSBD/bikini_bottom_dn.tga");
+	skyboxFacesFBD.push_back("Textures/SkyboxSBD/bikini_bottom_up.tga");
+	skyboxFacesFBD.push_back("Textures/SkyboxSBD/bikini_bottom_bk.tga");
+	skyboxFacesFBD.push_back("Textures/SkyboxSBD/bikini_bottom_ft.tga");
+
+	skyboxFBD = Skybox(skyboxFacesFBD);
+
+	std::vector<std::string> skyboxFacesFBN;
+	skyboxFacesFBN.push_back("Textures/SkyboxSBN/bikini_bottom_rt.tga");
+	skyboxFacesFBN.push_back("Textures/SkyboxSBN/bikini_bottom_lf.tga");
+	skyboxFacesFBN.push_back("Textures/SkyboxSBN/bikini_bottom_dn.tga");
+	skyboxFacesFBN.push_back("Textures/SkyboxSBN/bikini_bottom_up.tga");
+	skyboxFacesFBN.push_back("Textures/SkyboxSBN/bikini_bottom_bk.tga");
+	skyboxFacesFBN.push_back("Textures/SkyboxSBN/bikini_bottom_ft.tga");
+
+	skyboxFBN = Skybox(skyboxFacesFBN);
+
+	/*std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_lf.tga");
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_dn.tga");
@@ -413,7 +477,7 @@ int main()
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_bk.tga");
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_ft.tga");
 
-	skybox = Skybox(skyboxFaces);
+	skybox = Skybox(skyboxFaces);*/
 
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
@@ -431,9 +495,9 @@ int main()
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
 	//Declaración de primer luz puntual
-	pointLights[0] = PointLight(1.0f, 0.0f, 0.0f,
+	pointLights[0] = PointLight(1.0f, 1.0f, 1.0f,
 		0.0f, 1.0f,
-		2.0f, 1.5f, 1.5f,
+		400.0f, 0.0f, -300.0f,
 		0.3f, 0.2f, 0.1f);
 	pointLightCount++;
 
@@ -456,23 +520,23 @@ int main()
 		15.0f);
 	spotLightCount++;*/
 	
-	//luz de helicóptero
-	spotLights[1] = SpotLight(1.0f, 1.0f, 1.0f,
-		1.0f, 2.0f,
-		-20.0f, 6.0f, -1.0,
-		0.0f, -1.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
-		15.0f);
-	spotLightCount++;
+	////luz de helicóptero
+	//spotLights[1] = SpotLight(1.0f, 1.0f, 1.0f,
+	//	1.0f, 2.0f,
+	//	-20.0f, 6.0f, -1.0,
+	//	0.0f, -1.0f, 0.0f,
+	//	1.0f, 0.0f, 0.0f,
+	//	15.0f);
+	//spotLightCount++;
 		
-	//luz de faro1
-	spotLights[2] = SpotLight(1.0f, 1.0f, 1.0f,
-		1.0f, 2.0f,
-		-5.0f, 1.8f, 1.65f,
-		-1.0f, 0.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
-		15.0f);
-	spotLightCount++;
+	////luz de faro1
+	//spotLights[2] = SpotLight(1.0f, 1.0f, 1.0f,
+	//	1.0f, 2.0f,
+	//	-5.0f, 1.8f, 1.65f,
+	//	-1.0f, 0.0f, 0.0f,
+	//	1.0f, 0.0f, 0.0f,
+	//	15.0f);
+	//spotLightCount++;
 	
 	//luz de faro2
 	/*spotLights[3] = SpotLight(1.0f, 1.0f, 1.0f,
@@ -487,7 +551,10 @@ int main()
 		uniformSpecularIntensity = 0, uniformShininess = 0;
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
 	
-	
+	//Inicialización de variables
+	countSB = 0.0;
+	movOffset = 0.5f;
+
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
 	{
@@ -504,7 +571,28 @@ int main()
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
+
+
+		//skyboxFBD.DrawSkybox(camera.calculateViewMatrix(), projection);
+
+		//Manejo del contador
+		if (countSB <= 400.0f) {
+			countSB += movOffset * deltaTime;
+		}
+		else {
+			countSB = 0;
+		}
+
+		//Ciclo Día-Noche
+		if (countSB <= 200) {
+			skyboxFBD.DrawSkybox(camera.calculateViewMatrix(), projection);
+		}
+		else {
+			skyboxFBN.DrawSkybox(camera.calculateViewMatrix(), projection);
+		}
+		
+
+
 		shaderList[0].UseShader();
 		uniformModel = shaderList[0].GetModelLocation();
 		uniformProjection = shaderList[0].GetProjectionLocation();
@@ -519,10 +607,10 @@ int main()
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera.calculateViewMatrix()));
 		glUniform3f(uniformEyePosition, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);
 
-		//luz ligada a la cámara de tipo flash 
-		glm::vec3 lowerLight = camera.getCameraPosition();
-		lowerLight.y -= 0.3f;
-		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
+		////luz ligada a la cámara de tipo flash 
+		//glm::vec3 lowerLight = camera.getCameraPosition();
+		//lowerLight.y -= 0.3f;
+		//spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
 
 		//luz ligada al faro del coche
 		//glm::vec3 lowerLightC = posfaro;
@@ -560,7 +648,7 @@ int main()
 		//-----------------------------------------------------------------------------------------
 		//Don Cangrejo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-20.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(440.0f, 0.0f, -350.0f));
 		model = glm::scale(model, glm::vec3(0.015f, 0.015f, 0.015f));
 		//model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -568,31 +656,31 @@ int main()
 
 		//Bob Esponja
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-40.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(380.0f, 0.0f, -230.0f));
 		model = glm::scale(model, glm::vec3(4.0f, 5.0f, 4.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -135 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		SpongeBob.RenderModel();
 
 		//Calamardo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-50.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(440.0f, 0.0f, -300.0f));
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		SquidWard.RenderModel();
 
 		//Patricio
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-65.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(360.0f, 0.0f, -230.0f));
 		model = glm::scale(model, glm::vec3(27.0f, 27.0f, 27.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, 135 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		PatrickStar.RenderModel();
 
 		//Gary
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-80.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(400.0f, 0.0f, -300.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -600,102 +688,21 @@ int main()
 
 		//Plankton
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-95.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(320.0f, 0.0f, -350.0f));
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Plankton.RenderModel();
 
 		//Karen
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-105.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(330.0f, 0.0f, -350.0f));
 		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
 		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Karen.RenderModel();
 
-		//Arenita
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-120.0f + mainWindow.getmuevex(), 0.0f, 0.0f + mainWindow.getmuevez()));
-		model = glm::scale(model, glm::vec3(1.8f, 1.8f, 1.8f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(mainWindow.getrotAvatar()), glm::vec3(0.0f, 1.0f, 0.0f));
 		
-		matrizauxAvatar = model;
-
-		//Uso de GL_BLEND por la textura del casco
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		Sandy.RenderModel();
-		glDisable(GL_BLEND);
-
-
-		//Variables para realizar la rotación de las piernas
-		muevex_int = int(mainWindow.getmuevex());
-		muevez_int = int(mainWindow.getmuevez());
-		rotAvatar_int = int(mainWindow.getrotAvatar());
-
-		//Estructura para realizar la rotación de las piernas
-		//Rotación en movimiento horizontal
-		if (rotAvatar_int == 180 || rotAvatar_int == 0) {
-			if (muevex_int % 2 == 0) {
-				rotPieDer = -45.0;
-				rotPieIzq = 0.0;
-				rotPieDerOt = 0.0;
-				rotPieIzqOt = 0.0;
-
-				movPieDer = 1.0;
-				movPieIzq = 0.0;
-			}
-			else {
-				rotPieDer = 0.0;
-				rotPieIzq = -45.0;
-				rotPieDerOt = 0.0;
-				rotPieIzqOt = 0.0;
-
-				movPieIzq = 1.0;
-				movPieDer = 0.0;
-			}
-		}
-		
-		//Rotación en movimiento vertical
-		if (rotAvatar_int == -90 || rotAvatar_int == 90) {
-			if (muevez_int % 2 == 0) {
-				rotPieDerOt = -45.0;
-				rotPieIzqOt = 0.0;
-				rotPieDer = 0.0;
-				rotPieIzq = 0.0;
-
-				movPieDer = 1.0;
-				movPieIzq = 0.0;
-			}
-			else {
-				rotPieDerOt = 0.0;
-				rotPieIzqOt = -45.0;
-				rotPieDer = 0.0;
-				rotPieIzq = 0.0;
-
-				movPieIzq = 1.0;
-				movPieDer = 0.0;
-			}
-		}
-		
-		//Arenita Piernas
-
-		model = matrizauxAvatar;
-		//model = glm::translate(model, glm::vec3(+0.0f, +0.0f, +movPieDer));
-		model = glm::rotate(model, rotPieDer * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, rotPieDerOt * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		ArenitaPieDer.RenderModel();
-
-		model = matrizauxAvatar;
-		//model = glm::translate(model, glm::vec3(+0.0f, +0.0f, +movPieIzq));
-		model = glm::rotate(model, rotPieIzq * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, rotPieIzqOt * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		ArenitaPieIzq.RenderModel();
 
 		//-----------------------------------------------------------------------------------------
 
@@ -703,39 +710,15 @@ int main()
 		//-----------------------------------------------------------------------------------------
 		//Crustáceo Cascarudo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-20.0f, 0.0f, 60.0f));
+		model = glm::translate(model, glm::vec3(400.0f, 0.0f, -300.0f));
+		/*model = glm::translate(model, glm::vec3(-20.0f, 0.0f, 60.0f));*/
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 
 		//Jerarquía del Crustáceo Cascarudo
 		matrizauxKC = model;
-
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		KrustyKrab.RenderModel();
-
-		//Árbol de Navidad
-		model = matrizauxKC;
-		model = glm::translate(model, glm::vec3(40.0f, 4.0f, 60.0f));
-		model = glm::scale(model, glm::vec3(20.0f, 20.0f, 20.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		ChristmasTree.RenderModel();
-
-		//REGALOS
-		//-------------------------------------------------------------------------------
-		//Regalo01
-		model = matrizauxKC;
-		model = glm::translate(model, glm::vec3(-20.0f, 10.0f, -50.0f));
-		model = glm::scale(model, glm::vec3(9.0f, 12.0f, 4.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Regalo01.UseTexture();
-		meshList[4]->RenderMesh();
-
-		//Regalo02
-		model = matrizauxKC;
-		model = glm::translate(model, glm::vec3(-10.0f, 4.9f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[4]->RenderMesh();
-		//-------------------------------------------------------------------------------
 
 		//Casa de Bob Esponja
 		model = glm::mat4(1.0);
@@ -763,10 +746,113 @@ int main()
 
 		//------------------------------------------------------------------------------------------
 
-		//OBJECTS BY GEOMETRY
+		//OBJECTS 
 		//-----------------------------------------------------------------------------------------
+		//Árbol de Navidad
+		model = matrizauxKC;
+		model = glm::translate(model, glm::vec3(40.0f, 4.0f, 60.0f));
+		model = glm::scale(model, glm::vec3(20.0f, 20.0f, 20.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		ChristmasTree.RenderModel();
 
-		//Regalos
+		//REGALOS
+		//-------------------------------------------------------------------------------
+		//Regalo01
+		model = matrizauxKC;
+		model = glm::translate(model, glm::vec3(30.0f, 11.0f, 45.0f));
+		model = glm::rotate(model, -135 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		matrizauxRegalo = model;
+		model = glm::scale(model, glm::vec3(9.0f, 12.0f, 4.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Regalo01.UseTexture();
+		meshList[4]->RenderMesh();
+
+		//Regalo02
+		model = matrizauxRegalo;
+		model = glm::translate(model, glm::vec3(2.0f, -8.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.7f, 4.0f, 0.7f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Regalo02.UseTexture();
+		meshList[4]->RenderMesh();
+
+		//Regalo03
+		model = matrizauxRegalo;
+		model = glm::translate(model, glm::vec3(-2.0f, -8.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.7f, 4.0f, 0.7f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Regalo03.UseTexture();
+		meshList[4]->RenderMesh();
+
+		//Regalo04
+		model = matrizauxRegalo;
+		model = glm::translate(model, glm::vec3(-2.0f, -10.5f, 0.5f));
+		model = glm::scale(model, glm::vec3(1.4f, 1.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Regalo04.UseTexture();
+		meshList[4]->RenderMesh();
+
+		//Regalo05
+		model = matrizauxRegalo;
+		model = glm::translate(model, glm::vec3(2.0f, -10.5f, 0.5f));
+		model = glm::scale(model, glm::vec3(1.4f, 1.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Regalo04.UseTexture();
+		meshList[4]->RenderMesh();
+
+		//Regalo06
+		model = matrizauxRegalo;
+		model = glm::translate(model, glm::vec3(-1.5f, 2.0f, 2.0f));
+		model = glm::scale(model, glm::vec3(25.0f, 25.0f, 25.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Bombilla.RenderModel();
+
+		//Regalo07
+		model = matrizauxRegalo;
+		model = glm::translate(model, glm::vec3(1.5f, 2.0f, 2.0f));
+		model = glm::scale(model, glm::vec3(25.0f, 25.0f, 25.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Bombilla.RenderModel();
+
+		//Muñecos de nieve
+		model = matrizauxKC;
+		model = glm::translate(model, glm::vec3(-150.0f, -3.0f, 100.0f));
+		model = glm::scale(model, glm::vec3(20.0f, 20.0f, 20.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Snowmans.RenderModel();
+
+		//Muñeco de nieve02
+		model = matrizauxKC;
+		model = glm::translate(model, glm::vec3(-150.0f, -3.0f, -100.0f));
+		model = glm::scale(model, glm::vec3(20.0f, 20.0f, 20.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Snowman02.RenderModel();
+
+		//Lampara01
+		model = matrizauxKC;
+		model = glm::translate(model, glm::vec3(0.0f, 58.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Lampara.RenderModel();
+
+		//Lampara02
+		model = matrizauxKC;
+		model = glm::translate(model, glm::vec3(0.0f, 58.0f, -100.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Lampara.RenderModel();
+
+		//Lampara03
+		model = matrizauxKC;
+		model = glm::translate(model, glm::vec3(0.0f, 58.0f, 100.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Lampara.RenderModel();
+
+		//-------------------------------------------------------------------------------
 
 
 		//-----------------------------------------------------------------------------------------
@@ -863,6 +949,123 @@ int main()
 		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		//Camino_M.RenderModel();
 
+		//SPECIAL MODELS
+		//------------------------------------------------------------------------------------------------------------
+		//Arenita
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-120.0f + mainWindow.getmuevex(), 0.0f, 0.0f + mainWindow.getmuevez()));
+		model = glm::scale(model, glm::vec3(1.8f, 1.8f, 1.8f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(mainWindow.getrotAvatar()), glm::vec3(0.0f, 1.0f, 0.0f));
+
+		matrizauxAvatar = model;
+
+		//Uso de GL_BLEND por la textura del casco
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		Sandy.RenderModel();
+		glDisable(GL_BLEND);
+
+
+		//Variables para realizar la rotación de las piernas
+		muevex_int = int(mainWindow.getmuevex());
+		muevez_int = int(mainWindow.getmuevez());
+		rotAvatar_int = int(mainWindow.getrotAvatar());
+
+		//Estructura para realizar la rotación de las piernas
+		//Rotación en movimiento horizontal
+		if (rotAvatar_int == 180 || rotAvatar_int == 0) {
+			if (muevex_int % 2 == 0) {
+				rotPieDer = -45.0;
+				rotPieIzq = 0.0;
+				rotPieDerOt = 0.0;
+				rotPieIzqOt = 0.0;
+
+				/*if (rotAvatar_int == 180) {
+					movPieDer = 2.0;
+					movPieIzq = 0.0;
+				}
+				else {
+					movPieDer = 2.0;
+					movPieIzq = 0.0;
+				}*/
+
+				movPieDer = 2.5;
+				movPieIzq = 0.0;
+
+				movPieDerY = 1.0;
+				movPieIzqY = 0.0;
+			}
+			else {
+				rotPieDer = 0.0;
+				rotPieIzq = -45.0;
+				rotPieDerOt = 0.0;
+				rotPieIzqOt = 0.0;
+
+				/*if (rotAvatar_int == 180) {
+					movPieDer = 0.0;
+					movPieIzq = 2.0;
+				}
+				else {
+					movPieDer = 0.0;
+					movPieIzq = 2.0;
+				}*/
+
+				movPieIzq = 2.5;
+				movPieDer = 0.0;
+
+				movPieDerY = 0.0;
+				movPieIzqY = 1.0;
+			}
+		}
+
+		//Rotación en movimiento vertical
+		if (rotAvatar_int == -90 || rotAvatar_int == 90) {
+			if (muevez_int % 2 == 0) {
+				rotPieDerOt = -45.0;
+				rotPieIzqOt = 0.0;
+				rotPieDer = 0.0;
+				rotPieIzq = 0.0;
+
+				movPieDer = 2.5;
+				movPieIzq = 0.0;
+
+				movPieDerY = 1.0;
+				movPieIzqY = 0.0;
+			}
+			else {
+				rotPieDerOt = 0.0;
+				rotPieIzqOt = -45.0;
+				rotPieDer = 0.0;
+				rotPieIzq = 0.0;
+
+				movPieIzq = 2.5;
+				movPieDer = 0.0;
+
+				movPieDerY = 0.0;
+				movPieIzqY = 1.0;
+			}
+		}
+
+		//Arenita Piernas
+
+		model = matrizauxAvatar;
+		model = glm::translate(model, glm::vec3(+0.0f, +movPieDerY, +movPieDer));
+		model = glm::rotate(model, rotPieDer * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, rotPieDerOt * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		ArenitaPieDer.RenderModel();
+
+		model = matrizauxAvatar;
+		model = glm::translate(model, glm::vec3(+0.0f, +movPieIzqY, +movPieIzq));
+		model = glm::rotate(model, rotPieIzq * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, rotPieIzqOt * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		ArenitaPieIzq.RenderModel();
+
+
+		//------------------------------------------------------------------------------------------------------------
 
 		glUseProgram(0);
 
