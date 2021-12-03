@@ -55,6 +55,25 @@ float movPieIzqY;
 float countSB;
 float movOffset;
 
+float countGF;
+float vGift01;
+float vGift02;
+float vGift03;
+float vGift04;
+float marcaR;
+float GiftY;
+float rGift01Z = 0.0;
+float rGift02Z = 0.0;
+float rGift03Z = 0.0;
+float rGift01Y = 0.0;
+float rGift02Y = 0.0;
+float rGift03Y = 0.0;
+float countNep = -1200.0;
+float rotBrazoNep = 0.0;
+float rotBrazoNep2 = 0.0;
+float movBrazoNep = 0.0;
+float movBrazoNep2 = 0.0;
+
 Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
@@ -97,6 +116,9 @@ Model Karen;
 Model Sandy;
 Model ArenitaPieDer;
 Model ArenitaPieIzq;
+Model Santa;
+Model Neptuno;
+Model NeptunoBrazoDer;
 
 //Buildings
 Model KrustyKrab;
@@ -105,12 +127,18 @@ Model SpongeBobHouse;
 Model SquidwardHouse;
 Model PatrickHouse;
 
+
 //Objects
 Model Bombilla;
 Model Snowmans;
 Model Snowman01;
 Model Snowman02;
 Model Lampara;
+Model Sock;
+Model Sock2;
+Model Gift01;
+Model Gift02;
+Model Gift03;
 
 Skybox skybox;
 
@@ -416,6 +444,15 @@ int main()
 	ArenitaPieIzq = Model();
 	ArenitaPieIzq.LoadModel("Models/ArenitaPieIzq.obj");
 
+	Santa = Model();
+	Santa.LoadModel("Models/Santa.obj");
+
+	Neptuno = Model();
+	Neptuno.LoadModel("Models/Neptuno.obj");
+
+	NeptunoBrazoDer = Model();
+	NeptunoBrazoDer.LoadModel("Models/NeptunoBrazoDer.obj");
+
 	//Buildings
 	KrustyKrab = Model();
 	KrustyKrab.LoadModel("Models/KrustyKrab2.obj");
@@ -447,6 +484,21 @@ int main()
 
 	Lampara = Model();
 	Lampara.LoadModel("Models/Lampara.obj");
+
+	Sock = Model();
+	Sock.LoadModel("Models/Sock.obj");
+
+	Sock2 = Model();
+	Sock2.LoadModel("Models/Sock2.obj");
+
+	Gift01 = Model();
+	Gift01.LoadModel("Models/Gift01.obj");
+
+	Gift02 = Model();
+	Gift02.LoadModel("Models/Gift02.obj");
+
+	Gift03 = Model();
+	Gift03.LoadModel("Models/Gift03.obj");
 
 	//Skyboxs
 	std::vector<std::string> skyboxFacesFBD;
@@ -517,14 +569,24 @@ int main()
 	//pointLightCount++;
 
 	unsigned int spotLightCount = 0;
-	//linterna
+	//Declaración de primera luz direccional
 	spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
 		0.0f, 2.0f,
-		0.0f, 0.0f, 0.0f,
-		0.0f, -1.0f, 0.0f,
+		400.0f, 0.0f, -300.0f,
+		0.0f, 1.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
 		5.0f);
-	//spotLightCount++;
+	//pointLightCount++;
+
+	
+	////linterna
+	//spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
+	//	0.0f, 2.0f,
+	//	0.0f, 0.0f, 0.0f,
+	//	0.0f, -1.0f, 0.0f,
+	//	1.0f, 0.0f, 0.0f,
+	//	5.0f);
+	////spotLightCount++;
 
 	//luz fija
 	/*spotLights[1] = SpotLight(0.0f, 0.0f, 1.0f,
@@ -569,6 +631,14 @@ int main()
 	//Inicialización de variables
 	countSB = 0.0;
 	movOffset = 0.5f;
+	countGF = -2400.0;
+	marcaR = 0.0;
+	GiftY = 0.0;
+
+	//Vectores para animación
+	glm::vec3 sGift01(0.0f, 0.0f, 0.0f);
+	glm::vec3 sGift02(0.0f, 0.0f, 0.0f);
+	glm::vec3 sGift03(0.0f, 0.0f, 0.0f);
 
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -652,6 +722,10 @@ int main()
 
 		glm::mat4 matrizauxRegalo(1.0);
 
+		glm::mat4 matrizauxTree(1.0);
+
+		glm::mat4 matrizauxBrazo(1.0);
+
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(60.0f, 1.0f, 60.0f));
@@ -719,6 +793,13 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Karen.RenderModel();
 
+		//Santa
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(400.0f, 121.5f, -350.0f));
+		model = glm::scale(model, glm::vec3(15.0f, 15.0f, 15.0f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Santa.RenderModel();
 		
 
 		//-----------------------------------------------------------------------------------------
@@ -768,9 +849,326 @@ int main()
 		//Árbol de Navidad
 		model = matrizauxKC;
 		model = glm::translate(model, glm::vec3(40.0f, 4.0f, 60.0f));
+		//matrizauxTree = model;
 		model = glm::scale(model, glm::vec3(20.0f, 20.0f, 20.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		ChristmasTree.RenderModel();
+
+		//Luz para la animación de Regalos
+		spotLights[0].SetFlash(glm::vec3(416.0f, 70.0f, -245.0f), glm::vec3(0.0f, -1.0f, 0.0f));
+
+		marcaR = mainWindow.getTeclaC();
+
+		//Manejo del contador de la animación de Regalos
+		if (marcaR > 0.0) {
+
+			marcaR = 1.0;
+
+			//Neptuno
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(300.0f + countNep, 0.0f, -300.0f));
+			model = glm::scale(model, glm::vec3(8.0f, 8.0f, 8.0f));
+			model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::rotate(model, rotBrazoNep * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			matrizauxBrazo = model;
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Neptuno.RenderModel();
+
+			//Neptuno Brazo Derecho
+			model = matrizauxBrazo;
+			model = glm::rotate(model, rotBrazoNep2 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+			//model = glm::translate(model, glm::vec3(0.0, -1.4, 2.5));
+			model = glm::translate(model, glm::vec3(0.0, movBrazoNep, movBrazoNep2));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			NeptunoBrazoDer.RenderModel();
+
+			countGF += 1.0;
+
+			if (countGF <= 0.0f) {
+
+				sGift01 = glm::vec3(0.0, 0.0, 0.0);
+				sGift02 = glm::vec3(0.0, 0.0, 0.0);
+				sGift03 = glm::vec3(0.0, 0.0, 0.0);
+
+				if (countGF <= -1200) {
+					countNep += 0.08;
+				}
+				else if (countGF <= -600) {
+					rotBrazoNep -= 0.1;
+					//countNep = 0.0;
+				}
+				else if (countGF <= -300) {
+					rotBrazoNep2 -= 0.2;
+					movBrazoNep -= 0.0046666;
+					movBrazoNep2 += 0.0083333;
+					//countNep = 0.0;
+				}
+				else if (countGF <= -200.0) {
+					//countNep = 0.0;
+					spotLightCount = 1;
+				}
+				else if (countGF <= -100.0) {
+					//countNep = 0.0;
+					spotLightCount = 0;
+				}
+				else if (countGF <= -50.0) {
+					//countNep = 0.0;
+					spotLightCount = 1;
+				}
+				else if (countGF <= 0.0) {
+					//countNep = 0.0;
+					spotLightCount = 0;
+				}
+			}
+
+			else if (countGF <= 1200.0f) {
+				//countGF += 1.0;
+				vGift01 += 0.0016665;
+				vGift02 += 0.0025;
+				vGift03 += 0.00333325;
+				vGift04 += 0.00208325;
+				sGift01 = glm::vec3(0.0 + vGift01, 0.0 + vGift01, 0.0 + vGift01);
+				sGift02 = glm::vec3(0.0 + vGift01, 0.0 + vGift02, 0.0 + vGift03);
+				sGift03 = glm::vec3(0.0 + vGift04, 0.0 + vGift04, 0.0 + vGift04);
+				GiftY += 0.00333325;
+
+				rGift01Z = 0.0;
+				rGift02Y = 0.0;
+				rGift03Z = 0.0;
+			}
+
+			else if (countGF <= 2400.0) {
+
+				vGift01 = 0.0;
+				vGift02 = 0.0;
+				vGift03 = 0.0;
+				vGift04 = 0.0;
+				if (countGF <= 1350.0) {
+					GiftY -= 0.026666;
+				}
+				else if (countGF <= 1355.0 /*and countGF <= 1050.0*/) {
+					rGift01Z += 1.0;
+					rGift02Y += 1.0;
+					rGift03Z += 1.0;
+				}
+				else if (countGF <= 1360.0) {
+					rGift01Z -= 1.0;
+					rGift02Y -= 1.0;
+					rGift03Z -= 1.0;
+				}
+				else if (countGF <= 1365.0) {
+					rGift01Z -= 1.0;
+					rGift02Y -= 1.0;
+					rGift03Z -= 1.0;
+				}
+				else if (countGF <= 1370.0) {
+					rGift01Z += 1.0;
+					rGift02Y += 1.0;
+					rGift03Z += 1.0;
+				}
+				else if (countGF <= 2400.0) {
+					rGift01Z = 0.0;
+					rGift02Y = 0.0;
+					rGift03Z = 0.0;
+				}
+			}
+			else {
+				countGF = -2400.0;
+				countNep = 0.0;
+				rotBrazoNep = 0.0;
+				rotBrazoNep2 = 0.0;
+				movBrazoNep = 0.0;
+				movBrazoNep2 = 0.0;
+				marcaR = 0.0;
+			}
+		}
+
+
+
+		////Manejo del contador de la animación de Regalos
+		//if (marcaR > 0.0) {
+
+		//	//Neptuno
+		//	model = glm::mat4(1.0);
+		//	model = glm::translate(model, glm::vec3(300.0f + countNep, 0.0f, -300.0f));
+		//	model = glm::scale(model, glm::vec3(8.0f, 8.0f, 8.0f));
+		//	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//	model = glm::rotate(model, rotBrazoNep * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//	matrizauxBrazo = model;
+		//	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//	Neptuno.RenderModel();
+
+		//	//Neptuno Brazo Derecho
+		//	model = matrizauxBrazo;
+		//	/*model = glm::mat4(1.0);
+		//	model = glm::translate(model, glm::vec3(300.0f + countNep + movBrazoNep, 0.0f, -300.0f + movBrazoNep));
+		//	model = glm::scale(model, glm::vec3(8.0f, 8.0f, 8.0f));
+		//	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//	model = glm::rotate(model, rotBrazoNep * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));*/
+		//	model = glm::rotate(model, rotBrazoNep2 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		//	//model = glm::translate(model, glm::vec3(0.0, -1.4, 2.5));
+		//	model = glm::translate(model, glm::vec3(0.0, movBrazoNep, movBrazoNep2));
+		//	/*model = glm::translate(model, glm::vec3(0.0, 0.0 + movBrazoNep/6, movBrazoNep/2));*/
+		//	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//	NeptunoBrazoDer.RenderModel();
+
+		//	if (countGF <= 0.0f) {
+
+		//		sGift01 = glm::vec3(0.0, 0.0, 0.0);
+		//		sGift02 = glm::vec3(0.0, 0.0, 0.0);
+		//		sGift03 = glm::vec3(0.0, 0.0, 0.0);
+
+		//		
+
+		//		countGF += 1.0;
+
+		//		if (countGF <= -1200) {
+		//			countNep += 0.08;
+		//		}
+
+		//		else if (countGF <= -600) {
+		//			rotBrazoNep -= 0.1;
+		//			//countNep = 0.0;
+		//		}
+		//		else if (countGF <= -300) {
+		//			rotBrazoNep2 -= 0.2;
+		//			movBrazoNep -= 0.0046666;
+		//			/*movBrazoNep = -1.4;
+		//			movBrazoNep2 = 2.5;*/
+		//			movBrazoNep2 += 0.0083333;
+		//			//countNep = 0.0;
+		//		}
+		//		else if (countGF <= -200.0) {
+		//			//countNep = 0.0;
+		//			spotLightCount = 1;
+		//		}
+		//		else if (countGF <= -100.0) {
+		//			//countNep = 0.0;
+		//			spotLightCount = 0;
+		//		}
+		//		else if (countGF <= -50.0) {
+		//			//countNep = 0.0;
+		//			spotLightCount = 1;
+		//		}
+		//		else if (countGF <= 0.0) {
+		//			//countNep = 0.0;
+		//			spotLightCount = 0;
+		//		}
+		//	}
+
+		//	
+		//	else if (countGF <= 1200.0f) {
+		//		//countNep = 0.0;
+		//		//countGF += movOffset * deltaTime;
+		//		countGF += 1.0;
+		//		//printf("%d", countGF);
+		//		/*vGift01 += 0.006666;
+		//		vGift02 += 0.01;
+		//		vGift03 += 0.013333;
+		//		vGift04 += 0.008333;*/
+		//		vGift01 += 0.0016665;
+		//		vGift02 += 0.0025;
+		//		vGift03 += 0.00333325;
+		//		vGift04 += 0.00208325;
+		//		sGift01 = glm::vec3(0.0 + vGift01, 0.0 + vGift01, 0.0 + vGift01);
+		//		sGift02 = glm::vec3(0.0 + vGift01, 0.0 + vGift02, 0.0 + vGift03);
+		//		sGift03 = glm::vec3(0.0 + vGift04, 0.0 + vGift04, 0.0 + vGift04);
+		//		GiftY += 0.00333325;
+
+		//		rGift01Z = 0.0;
+		//		rGift02Y = 0.0;
+		//		rGift03Z = 0.0;
+		//	}
+		//	else {
+		//		marcaR = -1.0;
+		//	}
+		//}
+		//else{
+		//	if (countGF >= 0.0) {
+		//		//countGF -= movOffset * deltaTime;
+		//		countGF -= 1.0;
+		//		vGift01 = 0.0;
+		//		vGift02 = 0.0;
+		//		vGift03 = 0.0;
+		//		vGift04 = 0.0;
+		//		if (countGF >= 1050.0) {
+		//			GiftY -= 0.026666;
+		//		}
+		//		else if(countGF >= 1045.0 /*and countGF <= 1050.0*/){
+		//			rGift01Z += 1.0;
+		//			rGift02Y += 1.0;
+		//			rGift03Z += 1.0;
+		//		}
+		//		else if (countGF >= 1039.0) {
+		//			rGift01Z -= 1.0;
+		//			rGift02Y -= 1.0;
+		//			rGift03Z -= 1.0;
+		//		}
+		//		else if (countGF >= 1033.0) {
+		//			rGift01Z -= 1.0;
+		//			rGift02Y -= 1.0;
+		//			rGift03Z -= 1.0;
+		//		}
+		//		else if (countGF >= 1027.0) {
+		//			rGift01Z += 1.0;
+		//			rGift02Y += 1.0;
+		//			rGift03Z += 1.0;
+		//		}
+		//		else if (countGF >= 0.0) {
+		//			rGift01Z = 0.0;
+		//			rGift02Y = 0.0;
+		//			rGift03Z = 0.0;
+		//		}
+		//		/*sGift01 = glm::vec3(0.0, 0.0, 0.0);
+		//		sGift02 = glm::vec3(0.0, 0.0, 0.0);
+		//		sGift03 = glm::vec3(0.0, 0.0, 0.0);*/
+
+		//		/*vGift01 = 2.0;
+		//		vGift02 = 3.0;
+		//		vGift03 = 4.0;
+		//		vGift04 = 2.5;*/
+
+		//	}
+		//	else {
+		//		marcaR = 1.0;
+		//		countGF = -2400.0;
+		//		countNep = 0.0;
+		//		rotBrazoNep = 0.0;
+		//		rotBrazoNep2 = 0.0;
+		//		movBrazoNep = 0.0;
+		//		movBrazoNep2 = 0.0;
+		//	}
+		//}
+
+		//GIFT01
+		//model = matrizauxTree;
+		model = matrizauxKC;
+		model = glm::translate(model, glm::vec3(15.0f, 0.0f + GiftY, 50.0f));
+		model = glm::scale(model, sGift01);
+		model = glm::rotate(model, rGift01Z * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		//model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Gift01.RenderModel();
+
+		//GIFT02
+		//model = matrizauxTree;
+		model = matrizauxKC;
+		model = glm::translate(model, glm::vec3(20.0f, 0.0f + GiftY, 55.0f));
+		model = glm::scale(model, sGift02);
+		model = glm::rotate(model, rGift02Y * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(2.0f, 3.0f, 4.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Gift02.RenderModel();
+
+		//GIFT03
+		//model = matrizauxTree;
+		model = matrizauxKC;
+		model = glm::translate(model, glm::vec3(15.0f, 0.0f + GiftY, 60.0f));
+		model = glm::scale(model, sGift03);
+		model = glm::rotate(model, rGift03Z * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		//model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Gift03.RenderModel();
 
 		//REGALOS
 		//-------------------------------------------------------------------------------
@@ -868,6 +1266,42 @@ int main()
 		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
+
+		//Bota01
+		model = matrizauxKC;
+		model = glm::translate(model, glm::vec3(-94.0f, 78.0f, -100.0f));
+		model = glm::scale(model, glm::vec3(30.0f, 30.0f, 30.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, -45 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Sock.RenderModel();
+
+		//Bota02
+		model = matrizauxKC;
+		model = glm::translate(model, glm::vec3(-94.0f, 78.0f, -50.0f));
+		model = glm::scale(model, glm::vec3(30.0f, 30.0f, 30.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, -45 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Sock2.RenderModel();
+
+		//Bota03
+		model = matrizauxKC;
+		model = glm::translate(model, glm::vec3(-94.0f, 78.0f, 50.0f));
+		model = glm::scale(model, glm::vec3(30.0f, 30.0f, 30.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, -45 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Sock.RenderModel();
+
+		//Bota04
+		model = matrizauxKC;
+		model = glm::translate(model, glm::vec3(-94.0f, 78.0f, 100.0f));
+		model = glm::scale(model, glm::vec3(30.0f, 30.0f, 30.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, -45 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Sock2.RenderModel();
 
 		//-------------------------------------------------------------------------------
 

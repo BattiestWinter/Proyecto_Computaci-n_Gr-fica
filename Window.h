@@ -23,6 +23,7 @@ public:
 	GLfloat getLlanta2() { return Llanta2; }
 	GLfloat getLlanta3() { return Llanta3; }
 	GLfloat getLlanta4() { return Llanta4; }
+	GLint getTeclaC() { return teclaC; }
 	bool getShouldClose() {
 		return  glfwWindowShouldClose(mainWindow);}
 	bool* getsKeys() { return keys; }
@@ -49,6 +50,7 @@ private:
 	GLfloat Llanta2;
 	GLfloat Llanta3;
 	GLfloat Llanta4;
+	GLint teclaC;
 	bool mouseFirstMoved;
 	static void ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode);
 	static void ManejaMouse(GLFWwindow* window, double xPos, double yPos);
